@@ -3,6 +3,12 @@ const app = express()
 
 const port = process.env.PORT || 3001
 
+app.get('/wake-up', (req, res) => {
+    res.json({
+        success: true
+    })
+})
+
 app.get('/check/:domain', async (req, res) => {    
     const { domain } = req.params
     const whois = require('whois-json');
