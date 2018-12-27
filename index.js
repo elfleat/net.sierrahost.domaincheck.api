@@ -4,8 +4,7 @@ const app = express()
 
 const port = process.env.PORT || 3001
 
-const config = require('./config');
-const apiKey = config ? config.apiKey : process.env.RAPIDKEY;
+const apiKey = process.env.RAPIDKEY || require('./config').apiKey;
 
 app.get('/wake-up', (req, res) => {
     res.json({
