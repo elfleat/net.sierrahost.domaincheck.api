@@ -1,6 +1,5 @@
 const express = require('express')
 const request = require('request')
-const whois = require('whois-json')
 const app = express()
 
 const port = process.env.PORT || 3001

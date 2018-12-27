@@ -8,8 +8,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "nodemon": "^1.17.5",
-    "request": "^2.88.0",
-    "whois-json": "^2.0.2"
+    "request": "^2.88.0"
   },
   "scripts": {
     "start": "node index.js",
