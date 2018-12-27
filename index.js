@@ -5,6 +5,9 @@ const app = express()
 
 const port = process.env.PORT || 3001
 
+const config = require('./config');
+const apiKey = config ? config.apiKey : process.env.RAPIDKEY;
+
 app.get('/wake-up', (req, res) => {
     res.json({
         success: true
@@ -18,8 +21,8 @@ app.get('/check/:domain', async (req, res) => {
     try {
 
         var headers = {
-            'X-RapidAPI-Key': '47uLWbIEL7mshT3uOzDkKVe8yRjIp1o1OqyjsnyZdPnqEgyQDm',
-            'Authorization': '47uLWbIEL7mshT3uOzDkKVe8yRjIp1o1OqyjsnyZdPnqEgyQDm'
+            'X-RapidAPI-Key': apiKey,
+            'Authorization': apiKey
         };
         
         var options = {
