@@ -11,34 +11,6 @@ app.get('/wake-up', (req, res) => {
     })
 })
 
-// app.get('/checkv2/:domain', async (req, res) => {    
-//     const { domain } = req.params
-//     const whois = require('whois-json')
-
-//     console.log(`Domain requested: ${domain}`)
-//     try {
-//         const result = await whois(domain, {follow: 3, verbose: true});
-//         const isTaken = result && result.length > 1 ? true : false;
-        
-//         console.log(`${domain} is ${isTaken ? '' : 'not'} taken`)
-    
-//         res.json({
-//             domain,
-//             isTaken,
-//             success: true
-//         })
-
-//     } catch(error) {
-//         console.log(`Request failed for: ${domain}`)
-
-//         res.json({
-//             success: false,
-//             error
-//         })
-//     }
-// })
-
-
 app.get('/check/:domain', async (req, res) => {    
     const { domain } = req.params
     let isTaken
@@ -46,27 +18,34 @@ app.get('/check/:domain', async (req, res) => {
     try {
 
         var headers = {
-            'accept': 'application/json',
-            'Authorization': 'sso-key 9EE5Efgwg99_QdqnHVHsfmzz7bPbDQ2Wkb:QdqpvkDqp813qEhurZrtEf'
+            'X-RapidAPI-Key': '2buoWvddp1mshkWYvuNoqNvtnk5Sp1osJWHjsn7t2P7HwKU9hp',
+            'Authorization': '2buoWvddp1mshkWYvuNoqNvtnk5Sp1osJWHjsn7t2P7HwKU9hp'
         };
         
         var options = {
-            url: `https://api.godaddy.com/v1/domains/available?domain=${domain}&checkType=FAST&forTransfer=false`,
+            url: `https://domainr.p.rapidapi.com/v2/status?domain=${domain}&checkType=FAST&forTransfer=false`,
             headers: headers
         };
         
         request(options, (error, response, body) => {
-            if (!error && response.statusCode == 200) {
-                body = JSON.parse(body)
-                // console.log(body)
-                const isTaken = !body.available
-                console.log(`${domain} is ${isTaken ? '' : 'not'} taken`)
+            body = JSON.parse(body)
+
+            if (!error && response.statusCode == 200 && !body.errors) {
+                const isTaken = body.status[0].status.indexOf('undelegated') === -1
+
+                console.log(`${domain} is${isTaken ? '' : ' not'} taken`)
                 res.json({
                     domain,
                     isTaken,
                     success: true
                 })
             }
+            console.error(body.errors)
+            res.json({
+                domain,
+                errors: body.errors,
+                success: false
+            })
         });
 
     } catch(error) {
