@@ -18,8 +18,8 @@ app.get('/check/:domain', async (req, res) => {
     try {
 
         var headers = {
-            'X-RapidAPI-Key': '2buoWvddp1mshkWYvuNoqNvtnk5Sp1osJWHjsn7t2P7HwKU9hp',
-            'Authorization': '2buoWvddp1mshkWYvuNoqNvtnk5Sp1osJWHjsn7t2P7HwKU9hp'
+            'X-RapidAPI-Key': '47uLWbIEL7mshT3uOzDkKVe8yRjIp1o1OqyjsnyZdPnqEgyQDm',
+            'Authorization': '47uLWbIEL7mshT3uOzDkKVe8yRjIp1o1OqyjsnyZdPnqEgyQDm'
         };
         
         var options = {
@@ -34,14 +34,14 @@ app.get('/check/:domain', async (req, res) => {
                 const isTaken = body.status[0].status.indexOf('undelegated') === -1
 
                 console.log(`${domain} is${isTaken ? '' : ' not'} taken`)
-                res.json({
+                return res.json({
                     domain,
                     isTaken,
                     success: true
                 })
             }
             console.error(body.errors)
-            res.json({
+            return res.json({
                 domain,
                 errors: body.errors,
                 success: false
