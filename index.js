@@ -32,9 +32,9 @@ app.get('/check/:domain', async (req, res) => {
             body = JSON.parse(body)
 
             if (!error && response.statusCode == 200 && !body.errors) {
-                const isTaken = body.status[0].status.indexOf('undelegated') === -1
-
-                console.log(`${domain} is${isTaken ? '' : ' not'} taken`)
+                // "inactive" means: Available for new registration
+                // https://domainr.com/docs/api/v2/status
+                const isTaken = body.status[0].status.indexOf('inactive') === -1
                 return res.json({
                     domain,
                     isTaken,
